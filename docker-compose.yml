@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  firebase-emulators:
+    image: ghcr.io/firebase/emulators:latest
+    container_name: firebase-emulators
+    ports:
+      - "4000:4000"  # Emulator UI
+      - "5001:5001"  # Firestore
+      - "8080:8080"  # Firestore WebSocket
+      - "9099:9099"  # Authentication
+      - "5000:5000"  # Hosting
+    volumes:
+      - ./:/home/node/app
+    working_dir: /home/node/app
+    environment:
+      - GCLOUD_PROJECT=hyper-coding-app
+      - FIRESTORE_EMULATOR_HOST=0.0.0.0:5001
+    command: >
+      --project=hyper-coding-app
+      --import=/home/node/app/emulator-data
+      --export-on-exit
+      --only firestore,auth,hosting,functions

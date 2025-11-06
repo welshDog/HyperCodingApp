@@ -3,6 +3,10 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
+    "emulators:up": "powershell -ExecutionPolicy Bypass -File ./scripts/start-emulators.ps1",
+    "emulators:down": "powershell -ExecutionPolicy Bypass -File ./scripts/stop-emulators.ps1",
+    "emulators:logs": "docker-compose logs -f",
+    "test:rules": "jest --config=jest.config.js test/security-rules.test.js",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
