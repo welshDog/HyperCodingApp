@@ -10,13 +10,17 @@ try {
         Write-Host $output -ForegroundColor Red
     }
 } catch {
-    Write-Host "An error occurred while stopping the emulators: $_" -ForegroundColor Red
+    Write-Host ("An error occurred while stopping the emulators: {0}" -f $_.Exception.Message) -ForegroundColor Red
 }
 
 # Check if any containers are still running
-$runningContainers = docker ps --filter "name=firebase-emulators" --format "{{.Names}}"
-if ($runningContainers) {
-    Write-Host "The following containers are still running:" -ForegroundColor Yellow
-    $runningContainers | ForEach-Object { Write-Host "- $_" }
-    Write-Host "You can stop them manually using: docker stop $($runningContainers -join ' ')" -ForegroundColor Yellow
+try {
+    $runningContainers = docker ps --filter "name=firebase-emulators" --format "{{.Names}}" 2>$null
+    if ($runningContainers) {
+        Write-Host "The following containers are still running:" -ForegroundColor Yellow
+        $runningContainers | ForEach-Object { Write-Host ("- {0}" -f $_) }
+        Write-Host ("You can stop them manually using: docker stop {0}" -f ($runningContainers -join ' ')) -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host ("Warning: Could not check for running containers: {0}" -f $_.Exception.Message) -ForegroundColor Yellow
 }
