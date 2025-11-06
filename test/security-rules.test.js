@@ -2,6 +2,9 @@ const { initializeTestEnvironment, getTestEnv } = require('@firebase/rules-unit-
 const { readFileSync } = require('fs');
 const path = require('path');
 
+// Import Jest's expect
+const { expect } = require('@jest/globals');
+
 // Increase timeout for tests
 jest.setTimeout(30000);
 
